@@ -165,5 +165,6 @@ class FPdfDocument {
         // await writeFile(`page${i+1}.png`, canvas.toBuffer());
     }
 
+    document.destroy();
     library.destroy();
 })();

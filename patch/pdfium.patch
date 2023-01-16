@@ -1,0 +1,60 @@
+diff --git a/build_overrides/BUILDCONFIG.gn b/build_overrides/BUILDCONFIG.gn
+index dce6fba5e..9e93037ce 100644
+--- a/build_overrides/BUILDCONFIG.gn
++++ b/build_overrides/BUILDCONFIG.gn
+@@ -272,6 +272,8 @@ if (target_os == "android") {
+   _default_toolchain = "//build/toolchain/aix:$target_cpu"
+ } else if (target_os == "zos") {
+   _default_toolchain = "//build/toolchain/zos:$target_cpu"
++} else if (target_os == "wasm") {
++  _default_toolchain = "//build/toolchain/wasm:emscripten"
+ } else {
+   assert(false, "Unsupported target_os: $target_os")
+ }
+@@ -310,6 +312,7 @@ is_linux = current_os == "linux"
+ is_mac = current_os == "mac"
+ is_nacl = current_os == "nacl"
+ is_win = current_os == "win" || current_os == "winuwp"
++is_wasm = current_os == "wasm"
+ 
+ is_apple = is_ios || is_mac
+ is_posix = !is_win && !is_fuchsia
+diff --git a/core/fxcrt/BUILD.gn b/core/fxcrt/BUILD.gn
+index 09400e881..f05d55a04 100644
+--- a/core/fxcrt/BUILD.gn
++++ b/core/fxcrt/BUILD.gn
+@@ -140,7 +140,7 @@ source_set("fxcrt") {
+   } else {
+     sources += [ "fx_memory_malloc.cpp" ]
+   }
+-  if (is_posix || is_fuchsia) {
++  if (is_posix || is_fuchsia || is_wasm) {
+     sources += [
+       "cfx_fileaccess_posix.cpp",
+       "cfx_fileaccess_posix.h",
+diff --git a/core/fxge/BUILD.gn b/core/fxge/BUILD.gn
+index 8d4138131..958650952 100644
+--- a/core/fxge/BUILD.gn
++++ b/core/fxge/BUILD.gn
+@@ -163,7 +163,7 @@ source_set("fxge") {
+     ]
+   }
+ 
+-  if (is_linux || is_chromeos || is_fuchsia) {
++  if (is_linux || is_chromeos || is_fuchsia || is_wasm) {
+     sources += [ "linux/fx_linux_impl.cpp" ]
+   }
+ 
+diff --git a/skia/BUILD.gn b/skia/BUILD.gn
+index 1e2bb2218..9e5140571 100644
+--- a/skia/BUILD.gn
++++ b/skia/BUILD.gn
+@@ -515,7 +515,7 @@ skia_source_set("skia_opts") {
+     deps = [ ":skia_opts_crc32" ]
+   } else if (current_cpu == "mipsel" || current_cpu == "mips64el") {
+     cflags += [ "-fomit-frame-pointer" ]
+-  } else {
++  } else if (!is_wasm) {
+     assert(false, "Unsupported target CPU " + current_cpu)
+   }
+ 

@@ -43,13 +43,13 @@ docker run -it --rm \
 
 ### WASMからエクスポートする関数を変更
 
-`exported-functions.txt` を編集すると、WASMからエクスポートする関数を変更することができます。
+`exported-functions.txt` を編集すると、WASMからエクスポートする関数を変更することができます。エクスポートする関数を必要最低限にすることで、.wasm/.jsファイルのサイズを小さくすることができます。
 
-エクスポート出来る関数の一覧は `llvm-nm` を使うと取得できます。
+エクスポートできる関数の一覧は `llvm-nm` を使うことで取得できます。 `build-wasm.sh` の末尾に次のようなコードを追加すると、関数の一覧を取得できます。
 
 ```sh
 apt install llvm
-llvm-nm libpdfium.a --format=just-symbols
+llvm-nm libpdfium.a --format=just-symbols > /root/build-host/dist/symbols.txt
 ```
 
 ## WASMの使用例
@@ -61,8 +61,10 @@ PDFをPNGに変換するサンプルプログラムが `sample` ディレクト�
 ```sh
 cd sample
 npm install
-node index.js
+node pdftopng.js
 ```
+
+サンプルに同梱している `pdftopng-canvas.js` は画像化処理に `node-canvas` を使った実装例です。 `node-canvas` は `cairo` に依存しているため、実行する際はREADMEに記載に従い追加のセットアップが必要になります。
 
 ## 参考プロジェクト
 

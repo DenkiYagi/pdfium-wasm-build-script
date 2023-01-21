@@ -153,16 +153,6 @@ class FPdfDocument {
         const jimp = await Jimp.create(image);
         jimp.colorType(2);
         await jimp.writeAsync(`page${i+1}.png`);
-
-        // Canvas版
-        // node-canvasを使っているが、ブラウザのcanvasでも動作するはず
-        // --------------------------------------
-        // const canvas = createCanvas(image.width, image.height);
-        // const context = canvas.getContext('2d');
-        // const imageData = context.createImageData(image.width, image.height);
-        // imageData.data.set(image.data);
-        // context.putImageData(imageData, 0, 0);
-        // await writeFile(`page${i+1}.png`, canvas.toBuffer());
     }
 
     document.destroy();

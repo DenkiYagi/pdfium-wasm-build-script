@@ -1,8 +1,6 @@
 const pdfium = require('../dist/pdfium.js');
 const { readFile } = require('node:fs/promises');
 const Jimp = require('jimp');
-// const { readFile, writeFile } = require('node:fs/promises');
-// const { createCanvas } = require('canvas');
 
 const BYTES_PER_PIXEL = 4;
 

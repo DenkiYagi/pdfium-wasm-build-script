@@ -9,7 +9,7 @@ DockerとGitが事前にインストールされている必要があります�
 ### 初回設定
 
 ```sh
-git clone TODO
+git clone https://github.com/DenkiYagi/pdfium-wasm-build-script
 
 cd pdfium-wasm-build-script
 docker build -t pdfium-wasm-buildenv .

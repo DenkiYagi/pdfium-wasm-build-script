@@ -15,7 +15,17 @@ cd pdfium-wasm-build-script
 docker build -t pdfium-wasm-buildenv .
 ```
 
-### Windows PowerShellでのビルド方法
+### ビルド対象とするブランチ名を調べる
+
+後述のビルドコマンドでは、ビルド対象とするPDFiumのブランチを指定できます。未指定の場合は `master` をcheckoutしてビルドします。
+
+Chromeのバージョンから対応するPDFuimのブランチ名（バージョン）を特定する方法は次の記事を参考にしてください。
+
+* https://zenn.dev/terurou/articles/2bfe44682a7de3
+
+### Windows PowerShellでのビルドコマンド
+
+ブランチ未指定の場合
 
 ```powershell
 docker run -it --rm `
@@ -23,7 +33,15 @@ docker run -it --rm `
   pdfium-wasm-buildenv build-host/build-wasm.sh
 ```
 
-### Mac, Linuxでのビルド方法
+ブランチを指定する場合は `-b` オプションを指定してください。次の例ではブランチに `chromium/5672` を指定しています。
+
+```powershell
+docker run -it --rm `
+  -v "$((Get-Location -PSProvider FileSystem).Path):/root/build-host" `
+  pdfium-wasm-buildenv build-host/build-wasm.sh -b chromium/5672
+```
+
+### Mac, Linuxでのビルドコマンド
 
 ```sh
 docker run -it --rm \
@@ -31,7 +49,8 @@ docker run -it --rm \
   pdfium-wasm-buildenv build-host/build-wasm.sh
 ```
 
-※動作未確認ですが、`$(pwd)` している所に問題がなければ動くはずです。
+* 動作未確認ですが、`$(pwd)` している所に問題がなければ動くはずです。
+* ブランチはWindowsでの例と同様に `-b` オプションを使って指定してください。
 
 ### ビルド結果
 

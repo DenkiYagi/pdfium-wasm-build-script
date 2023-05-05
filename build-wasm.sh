@@ -1,10 +1,19 @@
 #!/bin/bash -eux
 
+while getopts b: OPTION
+do
+  case $OPTION in
+    b)
+      BRANCH="$OPTARG"
+      ;;
+  esac
+done
+
 # chckout
 gclient config \
   --unmanaged https://pdfium.googlesource.com/pdfium.git \
   --custom-var "checkout_configuration=minimal"
-gclient sync --no-history --shallow
+gclient sync --no-history --shallow -r ${BRANCH:-main}
 
 cd pdfium
 

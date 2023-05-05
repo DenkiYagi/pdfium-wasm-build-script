@@ -25,7 +25,7 @@ Chromeのバージョンから対応するPDFuimのブランチ名（バージ�
 
 ### Windows PowerShellでのビルドコマンド
 
-ブランチ未指定の場合
+ブランチ未指定（masterを対象する際）のコマンドは次の通りです。
 
 ```powershell
 docker run -it --rm `
